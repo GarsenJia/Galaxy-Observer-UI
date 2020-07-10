@@ -3,7 +3,7 @@
 
 package com.ahli.galaxy.game;
 
-import com.ahli.galaxy.game.def.abstracts.GameDef;
+import com.ahli.galaxy.game.def.GameDef;
 import com.ahli.galaxy.ui.interfaces.UICatalog;
 
 /**

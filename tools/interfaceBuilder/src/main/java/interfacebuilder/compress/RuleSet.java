@@ -26,6 +26,7 @@ import java.util.Objects;
 //import jakarta.persistence.Id;
 //import jakarta.persistence.Transient;
 
+// TODO zum record machen
 @Entity
 public class RuleSet {
 	

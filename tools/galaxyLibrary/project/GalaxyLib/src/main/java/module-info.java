@@ -5,14 +5,12 @@ module GalaxyLib {
 	requires org.apache.commons.lang3;
 	requires transitive org.apache.logging.log4j;
 	requires vtd.xml;
-	//requires org.eclipse.collections.api;
 	requires org.eclipse.collections.impl;
 	
 	exports com.ahli.galaxy;
 	exports com.ahli.galaxy.archive;
 	exports com.ahli.galaxy.game;
 	exports com.ahli.galaxy.game.def;
-	exports com.ahli.galaxy.game.def.abstracts;
 	exports com.ahli.galaxy.parser;
 	exports com.ahli.galaxy.parser.abstracts;
 	exports com.ahli.galaxy.parser.interfaces;

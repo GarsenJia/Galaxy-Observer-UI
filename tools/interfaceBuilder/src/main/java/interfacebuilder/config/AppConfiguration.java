@@ -4,9 +4,7 @@
 package interfacebuilder.config;
 
 import com.ahli.galaxy.game.GameData;
-import com.ahli.galaxy.game.def.HeroesGameDef;
-import com.ahli.galaxy.game.def.SC2GameDef;
-import com.ahli.galaxy.game.def.abstracts.GameDef;
+import com.ahli.galaxy.game.def.GameDef;
 import com.ahli.mpq.MpqEditorInterface;
 import interfacebuilder.InterfaceBuilderApp;
 import interfacebuilder.base_ui.BaseUiService;
@@ -24,6 +22,7 @@ import interfacebuilder.threads.CleaningForkJoinPool;
 import interfacebuilder.threads.SpringForkJoinWorkerThreadFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 
 import javax.swing.JFileChooser;
 import java.io.File;
@@ -35,23 +34,27 @@ import java.util.concurrent.TimeUnit;
 public class AppConfiguration {
 	
 	@Bean
+	@Lazy
 	protected GameData sc2BaseGameData() {
 		return new GameData(sc2GameDef());
 	}
 	
 	@Bean
+	@Lazy
 	protected GameDef sc2GameDef() {
-		return new SC2GameDef();
+		return GameDef.getSc2GameDef();
 	}
 	
 	@Bean
+	@Lazy
 	protected GameData heroesBaseGameData() {
 		return new GameData(heroesGameDef());
 	}
 	
 	@Bean
+	@Lazy
 	protected GameDef heroesGameDef() {
-		return new HeroesGameDef();
+		return GameDef.getHeroesGameDef();
 	}
 	
 	@Bean

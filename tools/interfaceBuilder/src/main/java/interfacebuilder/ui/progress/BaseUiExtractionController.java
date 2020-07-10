@@ -3,7 +3,7 @@
 
 package interfacebuilder.ui.progress;
 
-import com.ahli.galaxy.game.def.abstracts.GameDef;
+import com.ahli.galaxy.game.def.GameDef;
 import interfacebuilder.InterfaceBuilderApp;
 import interfacebuilder.base_ui.BaseUiService;
 import interfacebuilder.base_ui.ExtractBaseUiTask;
@@ -65,9 +65,9 @@ public class BaseUiExtractionController implements Updateable {
 	
 	public void start(final Game game, final boolean usePtr) {
 		errorTabController.setRunning(true);
-		final GameDef exportedGameDef = gameService.getNewGameDef(game);
+		final GameDef exportedGameDef = gameService.getGameDef(game);
 		final String ptrString = usePtr ? " PTR" : "";
-		titleLabel.setText(String.format("Extract %s's Base UI", exportedGameDef.getName() + ptrString));
+		titleLabel.setText(String.format("Extract %s's Base UI", exportedGameDef.name() + ptrString));
 		txtArea1.getChildren().clear();
 		txtArea2.getChildren().clear();
 		txtArea3.getChildren().clear();

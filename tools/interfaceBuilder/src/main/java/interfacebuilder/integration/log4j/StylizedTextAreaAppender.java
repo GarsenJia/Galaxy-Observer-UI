@@ -94,6 +94,7 @@ public final class StylizedTextAreaAppender extends AbstractAppender {
 	 * @param threadName
 	 */
 	public static void setWorkerTaskController(final ErrorTabController controller, final String threadName) {
+		getStatusLogger().trace("registering error tab controller for thread: {}", threadName);
 		workerTaskControllers.put(threadName, controller);
 	}
 	
@@ -151,6 +152,7 @@ public final class StylizedTextAreaAppender extends AbstractAppender {
 		for (final String key : keys) {
 			final ErrorTabController curController = workerTaskControllers.get(key);
 			if (curController == controller) {
+				getStatusLogger().trace("unregistering error tab controller for thread: {}", key);
 				workerTaskControllers.remove(key);
 			}
 		}

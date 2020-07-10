@@ -111,7 +111,7 @@ final class RecursiveDOMTest {
 		int j;
 		final int len;
 		int len2;
-		for (j = 0, len = elements.getLength(); j < len; j++) {
+		for (j = 0, len = elements.getLength(); j < len; ++j) {
 			node = elements.item(j);
 			// final int n = nav.getCurrentIndex();
 			n = getLevel(node.getParentNode());
@@ -124,7 +124,7 @@ final class RecursiveDOMTest {
 			
 			attributes = node.getAttributes();
 			if (attributes != null) {
-				for (i = 0, len2 = attributes.getLength(); i < len2; i++) {
+				for (i = 0, len2 = attributes.getLength(); i < len2; ++i) {
 					attr = attributes.item(i);
 					// i will be attr name, i+1 will be attribute value
 					attrName = attr.getNodeName().toLowerCase(Locale.ROOT);

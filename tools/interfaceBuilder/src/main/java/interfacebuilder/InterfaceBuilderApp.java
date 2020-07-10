@@ -3,7 +3,7 @@
 
 package interfacebuilder;
 
-import com.ahli.galaxy.game.def.abstracts.GameDef;
+import com.ahli.galaxy.game.def.GameDef;
 import com.ahli.util.StringInterner;
 import interfacebuilder.base_ui.BaseUiService;
 import interfacebuilder.build.MpqBuilderService;
@@ -438,7 +438,7 @@ public class InterfaceBuilderApp extends Application {
 	 */
 	private boolean anyErrorTrackerEncounteredError() {
 		for (final ErrorTabController ctrl : errorTabControllers) {
-			if (ctrl.hasEncounteredError() && !ctrl.isErrorsDoNotPreventExit()) {
+			if (ctrl.hasEncounteredError() && ctrl.isErrorsPreventExit()) {
 				return true;
 			}
 		}
@@ -466,20 +466,20 @@ public class InterfaceBuilderApp extends Application {
 			if (params.getParamCompilePath().contains(File.separator + "heroes" + File.separator)) {
 				// Heroes
 				isHeroes = true;
-				gameDef = gameService.getNewGameDef(Game.HEROES);
+				gameDef = gameService.getGameDef(Game.HEROES);
 				final boolean isPtr = baseUiService.isHeroesPtrActive();
-				final String supportDir = gameDef.getSupportDirectoryX64();
-				final String swicherExe = gameDef.getSwitcherExeNameX64();
+				final String supportDir = gameDef.supportDirectoryX64();
+				final String swicherExe = gameDef.switcherExeNameX64();
 				gamePath =
 						(isPtr ? settings.getHeroesPtrPath() : settings.getHeroesPath()) + File.separator + supportDir +
 								File.separator + swicherExe;
 			} else {
 				// SC2
 				isHeroes = false;
-				gameDef = gameService.getNewGameDef(Game.SC2);
+				gameDef = gameService.getGameDef(Game.SC2);
 				final boolean is64bit = settings.isSc64bit();
-				final String supportDir = is64bit ? gameDef.getSupportDirectoryX64() : gameDef.getSupportDirectoryX32();
-				final String swicherExe = is64bit ? gameDef.getSwitcherExeNameX64() : gameDef.getSwitcherExeNameX32();
+				final String supportDir = is64bit ? gameDef.supportDirectoryX64() : gameDef.supportDirectoryX32();
+				final String swicherExe = is64bit ? gameDef.switcherExeNameX64() : gameDef.switcherExeNameX32();
 				gamePath = settings.getSc2Path() + File.separator + supportDir + File.separator + swicherExe;
 			}
 		}
@@ -505,7 +505,7 @@ public class InterfaceBuilderApp extends Application {
 	 */
 	private void clearErrorTrackers() {
 		for (final ErrorTabController ctrl : errorTabControllers) {
-			if (ctrl.hasEncounteredError() && !ctrl.isErrorsDoNotPreventExit()) {
+			if (ctrl.hasEncounteredError() && ctrl.isErrorsPreventExit()) {
 				ctrl.clearError(false);
 			}
 		}
@@ -534,7 +534,7 @@ public class InterfaceBuilderApp extends Application {
 	 * @param tabName
 	 */
 	public void addThreadLoggerTab(final String threadName, final String tabName,
-			final boolean errorsDoNotPreventExit) {
+			final boolean errorsPreventExit) {
 		final ObservableList<Tab> tabs = getTabPane().getTabs();
 		Tab newTab = null;
 		
@@ -551,7 +551,7 @@ public class InterfaceBuilderApp extends Application {
 			final TextFlow newTxtArea = new TextFlow();
 			newTxtArea.getStyleClass().add("styled-text-area");
 			final ErrorTabController errorTabCtrl =
-					new ErrorTabController(newTab, newTxtArea, true, false, errorsDoNotPreventExit);
+					new ErrorTabController(newTab, newTxtArea, true, false, errorsPreventExit);
 			errorTabCtrl.setRunning(true);
 			errorTabControllers.add(errorTabCtrl);
 			
@@ -597,7 +597,7 @@ public class InterfaceBuilderApp extends Application {
 				StylizedTextAreaAppender.setWorkerTaskController(errorTabCtrl, threadName);
 				Platform.runLater(() -> {
 					try {
-						errorTabCtrl.setErrorsDoNotPreventExit(errorsDoNotPreventExit);
+						errorTabCtrl.setErrorsPreventExit(errorsPreventExit);
 						errorTabCtrl.clearError(false);
 						errorTabCtrl.clearWarning(false);
 						errorTabCtrl.setRunning(true);

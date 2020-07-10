@@ -18,7 +18,7 @@
 		<jarTargetPath>../../release/Observer UI Settings Editor</jarTargetPath>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<moduleName>ObserverUiSettingsEditor</moduleName>
-		<javafx.version>15-ea+6</javafx.version>
+		<javafx.version>15-ea+7</javafx.version>
 		<commons-lang3.version>3.10</commons-lang3.version>
 		<log4j2.version>2.13.3</log4j2.version>
 		<commons-io.version>2.7</commons-io.version>
@@ -73,9 +73,9 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.1</version>
 				<configuration>
-					<source>14</source>
-					<target>14</target>
-					<release>14</release>
+					<source>15</source>
+					<target>15</target>
+					<release>15</release>
 					<excludes>
 						<!-- excludes files from being put into same path as classes -->
 						<exclude>**/*.txt</exclude>
@@ -83,7 +83,7 @@
 					<encoding>UTF-8</encoding>
 					<showWarnings>true</showWarnings>
 					<showDeprecation>true</showDeprecation>
-					<!--<compilerArgs>&#45;&#45;enable-preview</compilerArgs>-->
+					<compilerArgs>--enable-preview</compilerArgs>
 				</configuration>
 				<dependencies>
 					<dependency>
@@ -150,7 +150,7 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>3.0.0-M4</version>
 				<configuration>
-					<!--<argLine>&#45;&#45;enable-preview</argLine>-->
+					<argLine>--enable-preview</argLine>
 				</configuration>
 				<dependencies>
 					<dependency>
@@ -500,7 +500,7 @@
 								<module>${moduleName}</module>
 							</modules>
 							<!-- references toolchains.xml in ".m2" directory of the user -->
-							<baseJdk>version=14,vendor=openjdk</baseJdk>
+							<baseJdk>version=15,vendor=openjdk</baseJdk>
 							<!--<baseJdk>version=13,vendor=openjdk</baseJdk>-->
 							<!--<baseJdk>version=12,vendor=openjdk</baseJdk>-->
 							<!--<baseJdk>version=12,vendor=adoptopenjdkHotspot</baseJdk>-->

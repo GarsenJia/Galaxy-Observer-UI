@@ -4,7 +4,7 @@
 package interfacebuilder.ui.progress;
 
 import com.ahli.galaxy.ModData;
-import com.ahli.galaxy.game.def.abstracts.GameDef;
+import com.ahli.galaxy.game.def.GameDef;
 import com.ahli.mpq.MpqException;
 import com.ahli.mpq.mpqeditor.MpqEditorCompressionRule;
 import com.ahli.mpq.mpqeditor.MpqEditorCompressionRuleMask;
@@ -194,8 +194,8 @@ public class CompressionMiningController implements Updateable {
 					final GameDef gameDef = mod.getGameData().getGameDef();
 					final File projectSource = new File(project.getProjectPath());
 					final File modTargetFile = new File(configService.getDocumentsPath() + File.separator +
-							gameDef.getDocumentsGameDirectoryName() + File.separator +
-							gameDef.getDocumentsInterfaceSubdirectoryName() + File.separator + projectSource.getName());
+							gameDef.documentsGameDirectoryName() + File.separator +
+							gameDef.documentsInterfaceSubdirectoryName() + File.separator + projectSource.getName());
 					mod.setTargetFile(modTargetFile);
 					mod.setSourceDirectory(projectSource);
 					
@@ -219,7 +219,7 @@ public class CompressionMiningController implements Updateable {
 				updateUiSizeToBeat(bestSize);
 				long lastSize;
 				final RandomCompressionMiner comprMiner = expCompMiner;
-				for (int attempts = 1; !stopTaskNow && attempts < Integer.MAX_VALUE; attempts++) {
+				for (int attempts = 1; !stopTaskNow && attempts < Integer.MAX_VALUE; ++attempts) {
 					comprMiner.randomizeRules();
 					lastSize = comprMiner.build();
 					updateUiAttemptSize(lastSize, attempts);

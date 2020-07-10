@@ -179,8 +179,7 @@ public class UIFrame extends UIElement {
 	 */
 	public UIAttribute getValue(final String key) {
 		if (attributes != null) {
-			for (int i = 0, len = attributes.size(); i < len; i++) {
-				final UIAttribute a = attributes.get(i);
+			for (final UIAttribute a : attributes) {
 				if (a.getName().equalsIgnoreCase(key)) {
 					return a;
 				}

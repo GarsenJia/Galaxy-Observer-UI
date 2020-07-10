@@ -87,7 +87,7 @@ public class AutoCompleteComboBox extends ComboBox<String> {
 		final char firstLo = Character.toLowerCase(what.charAt(0));
 		final char firstUp = Character.toUpperCase(what.charAt(0));
 		
-		for (int i = src.length() - length; i >= 0; i--) {
+		for (int i = src.length() - length; i >= 0; --i) {
 			// Quick check before calling the more expensive regionMatches() method:
 			final char ch = src.charAt(i);
 			if (ch != firstLo && ch != firstUp) {

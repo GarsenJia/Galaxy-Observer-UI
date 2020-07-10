@@ -184,7 +184,7 @@ public class BrowseController implements Updateable {
 	
 	private String buildBaseUiDetailsString(final Game game, final boolean isPtr) {
 		final StringBuilder sb = new StringBuilder(25); // big enough for default case
-		final int[] version = baseUiService.getVersion(gameService.getNewGameDef(game), isPtr);
+		final int[] version = baseUiService.getVersion(gameService.getGameDef(game), isPtr);
 		for (final int v : version) {
 			sb.append(v).append('.');
 		}
@@ -245,7 +245,7 @@ public class BrowseController implements Updateable {
 			newTab.setContent(rootNode);
 			
 			extractionController = loader.getController();
-			final ErrorTabController errorTabCtrl = new ErrorTabController(newTab, newTxtArea, true, false, true);
+			final ErrorTabController errorTabCtrl = new ErrorTabController(newTab, newTxtArea, true, false, false);
 			extractionController.setErrorTabControl(errorTabCtrl);
 			controllers.add(extractionController);
 			
@@ -292,8 +292,7 @@ public class BrowseController implements Updateable {
 		} else {
 			// CASE: recycled Tab -> only do the workload
 			for (final var controller : controllers) {
-				if (controller instanceof BaseUiExtractionController) {
-					final BaseUiExtractionController extractCtrl = (BaseUiExtractionController) controller;
+				if (controller instanceof BaseUiExtractionController extractCtrl) {
 					final ErrorTabController errorTabCtrl = extractCtrl.getErrorTabController();
 					if (errorTabCtrl != null) {
 						newTab = errorTabCtrl.getTab();
@@ -334,7 +333,7 @@ public class BrowseController implements Updateable {
 	
 	private void browseBaseUi(final Game game) {
 		final GameData gameData = mpqBuilderService.getGameData(game);
-		final Updateable controller = createTab(gameData.getGameDef().getName());
+		final Updateable controller = createTab(gameData.getGameDef().name());
 		if (controller != null) {
 			final BrowseLoadBaseUiTask task =
 					new BrowseLoadBaseUiTask(gameData, (BrowseTabController) controller, baseUiService);

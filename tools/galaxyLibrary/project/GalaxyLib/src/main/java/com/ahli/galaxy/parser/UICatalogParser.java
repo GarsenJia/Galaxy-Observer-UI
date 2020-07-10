@@ -259,14 +259,14 @@ public class UICatalogParser implements ParsedXmlConsumer {
 		
 		// close action of states to enable overriding of whens/actions on next edit
 		int i = statesToClose.size() - 1;
-		for (; i >= 0; i--) {
+		for (; i >= 0; --i) {
 			if (statesToCloseLevel.get(i) >= level) {
 				final UIState state = statesToClose.get(i);
 				state.setNextAdditionShouldOverrideActions(true);
 				state.setNextAdditionShouldOverrideWhens(true);
 				statesToClose.remove(i);
 				statesToCloseLevel.remove(i);
-				i--;
+				--i;
 			}
 		}
 		
@@ -662,8 +662,7 @@ public class UICatalogParser implements ParsedXmlConsumer {
 		final String offset = ((i = attrTypes.indexOf(OFFSET)) != -1) ?
 				catalog.getConstantValue(attrValues.get(i), raceId, curIsDevLayout, consoleSkinId) : null;
 		
-		if (curElement instanceof UIFrame) {
-			final UIFrame frame = (UIFrame) curElement;
+		if (curElement instanceof UIFrame frame) {
 			if (side == null) {
 				if (logger.isTraceEnabled()) {
 					logger.trace("relative={}, offset={}", relative, offset);
@@ -734,11 +733,9 @@ public class UICatalogParser implements ParsedXmlConsumer {
 		
 		final List<UIElement> templateChildren;
 		
-		if (templateElem instanceof UIFrame) {
-			final UIFrame frame = (UIFrame) templateElem;
+		if (templateElem instanceof UIFrame frame) {
 			templateChildren = frame.getChildrenRaw();
-			if (targetElem instanceof UIFrame) {
-				final UIFrame target = (UIFrame) targetElem;
+			if (targetElem instanceof UIFrame target) {
 				// TODO do not set the undefined anchors (-> track if a side was defined or is on the initial value)
 				target.setAnchor(UIAnchorSide.TOP, frame.getAnchorRelative(UIAnchorSide.TOP),
 						frame.getAnchorPos(UIAnchorSide.TOP), frame.getAnchorOffset(UIAnchorSide.TOP));
@@ -758,21 +755,17 @@ public class UICatalogParser implements ParsedXmlConsumer {
 			//		} else if (templateElem instanceof UIAttribute) {
 			//			final UIAttribute attr = (UIAttribute) templateElem;
 			//			templateChildren = attr.getChildrenRaw();
-		} else if (templateElem instanceof UIStateGroup) {
-			final UIStateGroup stateGroup = (UIStateGroup) templateElem;
+		} else if (templateElem instanceof UIStateGroup stateGroup) {
 			templateChildren = stateGroup.getChildrenRaw();
-			if (targetElem instanceof UIStateGroup) {
-				final UIStateGroup target = (UIStateGroup) targetElem;
+			if (targetElem instanceof UIStateGroup target) {
 				target.setDefaultState(stateGroup.getDefaultState());
 				// states are the children
 			} else {
 				logger.error("Attempting to apply a template of type {} to a different type.", "StateGroup");
 			}
-		} else if (templateElem instanceof UIController) {
-			final UIController uiController = (UIController) templateElem;
+		} else if (templateElem instanceof UIController uiController) {
 			templateChildren = uiController.getChildrenRaw();
-			if (targetElem instanceof UIController) {
-				final UIController target = (UIController) targetElem;
+			if (targetElem instanceof UIController target) {
 				copyAttributes(uiController.getKeys(), target.getKeys());
 				// TODO attributesKeyValueList
 				// TODO isNameImplicit?
@@ -780,22 +773,18 @@ public class UICatalogParser implements ParsedXmlConsumer {
 			} else {
 				logger.error("Attempting to apply a template of type {} to a different type.", "UIController");
 			}
-		} else if (templateElem instanceof UIAnimation) {
-			final UIAnimation uiAnimation = (UIAnimation) templateElem;
+		} else if (templateElem instanceof UIAnimation uiAnimation) {
 			templateChildren = uiAnimation.getChildrenRaw();
-			if (targetElem instanceof UIAnimation) {
-				final UIAnimation target = (UIAnimation) targetElem;
+			if (targetElem instanceof UIAnimation target) {
 				// TODO events
 				// TODO controller
 				// TODO driver
 			} else {
 				logger.error("Attempting to apply a template of type {} to a different type.", "UIAnimation");
 			}
-		} else if (templateElem instanceof UIState) {
-			final UIState uiState = (UIState) templateElem;
+		} else if (templateElem instanceof UIState uiState) {
 			templateChildren = uiState.getChildrenRaw();
-			if (targetElem instanceof UIState) {
-				final UIState target = (UIState) targetElem;
+			if (targetElem instanceof UIState target) {
 				// TODO nextAdditionShouldOverrideActions
 				copyAttributes(uiState.getActions(), target.getActions());
 				// TODO nextAdditionShouldOverrideWhens

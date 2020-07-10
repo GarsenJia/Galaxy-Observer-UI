@@ -27,8 +27,7 @@ public class FilterableTreeItem<T> extends TreeItem<T> {
 		
 		filteredList.predicateProperty().bind(Bindings.createObjectBinding(() -> child -> {
 			// Set the predicate of child items to force filtering
-			if (child instanceof FilterableTreeItem) {
-				final FilterableTreeItem<T> filterableChild = (FilterableTreeItem<T>) child;
+			if (child instanceof FilterableTreeItem<T> filterableChild) {
 				filterableChild.setPredicate(predicate.get());
 			}
 			// If there is no predicate, keep this tree item
@@ -50,7 +49,6 @@ public class FilterableTreeItem<T> extends TreeItem<T> {
 	 * Set the hidden private field {@link TreeItem} children through reflection and hook the hidden {@link
 	 * ListChangeListener} in {@link TreeItem} childrenListener to the list
 	 */
-	@SuppressWarnings("unchecked")
 	private void setHiddenFieldChildrenPrivate(final ObservableList<TreeItem<T>> list) {
 		final Field children = ReflectionUtils.findField(getClass(), "children");
 		if (children != null) {

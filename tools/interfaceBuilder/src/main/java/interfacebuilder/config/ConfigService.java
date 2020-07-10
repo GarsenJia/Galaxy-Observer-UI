@@ -3,7 +3,7 @@
 
 package interfacebuilder.config;
 
-import com.ahli.galaxy.game.def.abstracts.GameDef;
+import com.ahli.galaxy.game.def.GameDef;
 import interfacebuilder.integration.SettingsIniInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -76,7 +76,7 @@ public class ConfigService {
 	}
 	
 	public String getBaseUiPath(final GameDef gameDef) {
-		return baseUiPath + File.separator + gameDef.getNameHandle();
+		return baseUiPath + File.separator + gameDef.nameHandle();
 	}
 	
 	public File getCascExtractorExeFile() {

@@ -54,12 +54,12 @@ public class UIState extends UIElement {
 	public Object deepCopy() {
 		final UIState clone = new UIState(getName(), whens.size(), actions.size());
 		final List<UIAttribute> whensClone = clone.whens;
-		for (int i = 0; i < whens.size(); i++) {
-			whensClone.add((UIAttribute) whens.get(i).deepCopy());
+		for (final UIAttribute when : whens) {
+			whensClone.add((UIAttribute) when.deepCopy());
 		}
 		final List<UIAttribute> actionsClone = clone.actions;
-		for (int i = 0; i < actions.size(); i++) {
-			actionsClone.add((UIAttribute) actions.get(i).deepCopy());
+		for (final UIAttribute action : actions) {
+			actionsClone.add((UIAttribute) action.deepCopy());
 		}
 		clone.nextAdditionShouldOverrideActions = nextAdditionShouldOverrideActions;
 		clone.nextAdditionShouldOverrideWhens = nextAdditionShouldOverrideWhens;
@@ -163,7 +163,7 @@ public class UIState extends UIElement {
 		}
 		final Object[] signatureFields = getSignatureFields();
 		final Object[] thatSignatureFields = ((UIState) obj).getSignatureFields();
-		for (int i = 0; i < signatureFields.length; i++) {
+		for (int i = 0; i < signatureFields.length; ++i) {
 			if (!(signatureFields[i] instanceof Object[])) {
 				if (!Objects.equals(signatureFields[i], thatSignatureFields[i])) {
 					return false;

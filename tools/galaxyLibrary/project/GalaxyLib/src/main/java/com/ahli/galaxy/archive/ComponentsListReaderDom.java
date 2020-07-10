@@ -3,7 +3,7 @@
 
 package com.ahli.galaxy.archive;
 
-import com.ahli.galaxy.game.def.abstracts.GameDef;
+import com.ahli.galaxy.game.def.GameDef;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
@@ -47,7 +47,7 @@ public final class ComponentsListReaderDom {
 	 */
 	public static String getDescIndexPath(final File f, final GameDef game)
 			throws ParserConfigurationException, SAXException, IOException {
-		final String str = game.getBaseDataFolderName() + File.separator + getComponentsListValue(f, UIUI);
+		final String str = game.baseDataFolderName() + File.separator + getComponentsListValue(f, UIUI);
 		logger.trace("DescIndexPath: {}", () -> str);
 		return str;
 	}
@@ -83,7 +83,7 @@ public final class ComponentsListReaderDom {
 		
 		// must be in a DataComponent node
 		final NodeList nodeList = doc.getElementsByTagName(DATA_COMPONENT);
-		for (int i = 0, len = nodeList.getLength(); i < len; i++) {
+		for (int i = 0, len = nodeList.getLength(); i < len; ++i) {
 			final Node node = nodeList.item(i);
 			final Node attrZero = node.getAttributes().item(0);
 			// first attribute's name is Type & value must be as specified

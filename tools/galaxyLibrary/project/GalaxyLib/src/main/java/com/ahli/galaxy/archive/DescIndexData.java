@@ -25,7 +25,6 @@ import java.util.List;
  * @author Ahli
  */
 // TODO rebuild to use the UI object model instead of parsing all layout files
-// another time
 public class DescIndexData {
 	private static final String STRING2 = "#";
 	
@@ -77,7 +76,7 @@ public class DescIndexData {
 	 * @return
 	 */
 	public String getLayoutIntPath(final int i) {
-		return fileIntPathList.get(i).getValue();
+		return fileIntPathList.get(i).value();
 	}
 	
 	/**
@@ -85,9 +84,9 @@ public class DescIndexData {
 	 * @return
 	 */
 	public boolean removeLayoutIntPath(final String intPath) {
-		for (int i = 0; i < fileIntPathList.size(); i++) {
+		for (int i = 0; i < fileIntPathList.size(); ++i) {
 			final Pair<Path, String> p = fileIntPathList.get(i);
-			if (p.getValue().equals(intPath)) {
+			if (p.value().equals(intPath)) {
 				fileIntPathList.remove(i);
 				return true;
 			}
@@ -155,10 +154,9 @@ public class DescIndexData {
 	 * @return
 	 */
 	public Path getLayoutFilePath(final String intPath) {
-		for (int i = 0; i < fileIntPathList.size(); i++) {
-			final Pair<Path, String> p = fileIntPathList.get(i);
-			if (p.getValue().equals(intPath)) {
-				return p.getKey();
+		for (final Pair<Path, String> p : fileIntPathList) {
+			if (p.value().equals(intPath)) {
+				return p.key();
 			}
 		}
 		return null;
@@ -174,7 +172,7 @@ public class DescIndexData {
 			
 			for (final Pair<Path, String> curPair : fileIntPathList) {
 				bw.write(INCLUDE_PATH);
-				bw.write(curPair.getValue());
+				bw.write(curPair.value());
 				bw.write(STRING);
 			}
 			
@@ -200,7 +198,7 @@ public class DescIndexData {
 		List<String> layoutDeps;
 		List<String> curConstants;
 		for (final Pair<Path, String> pair : fileIntPathList) {
-			final File f = pair.getKey().toFile();
+			final File f = pair.key().toFile();
 			curConstants = LayoutReaderDom.getLayoutsConstantDefinitions(f);
 			
 			// add calculated list of dependencies from layout file
@@ -214,7 +212,7 @@ public class DescIndexData {
 		}
 		
 		boolean insertOccurred = true;
-		for (int counter = 0; insertOccurred && counter < Math.pow(fileIntPathList.size(), 4); counter++) {
+		for (int counter = 0; insertOccurred && counter < Math.pow(fileIntPathList.size(), 4); ++counter) {
 			if (logger.isTraceEnabled()) {
 				logger.trace("counter={}", counter);
 			}
@@ -256,9 +254,9 @@ public class DescIndexData {
 						}
 						if (!constantDefinedBefore) {
 							y:
-							for (int i2 = i + 1; i2 < dependencies.size(); i2++) {
+							for (int i2 = i + 1; i2 < dependencies.size(); ++i2) {
 								final Pair<Path, String> otherPair = fileIntPathList.get(i2);
-								String fileName = otherPair.getKey().getFileName().toString();
+								String fileName = otherPair.key().getFileName().toString();
 								final int dotIndex = fileName.lastIndexOf('.');
 								if (dotIndex > 0) {
 									fileName = fileName.substring(0, dotIndex);
@@ -267,7 +265,7 @@ public class DescIndexData {
 									if (constant.equals(curDependencyTo)) {
 										if (logger.isTraceEnabled()) {
 											logger.trace(CHECKED_WITH_DEPENDENCY_AND_I_J_I2,
-													fileIntPathList.get(i).getKey().getFileName(), curDependencyTo,
+													fileIntPathList.get(i).key().getFileName(), curDependencyTo,
 													constant, i, j, i2);
 											logger.trace(FILE_INT_PATH_LIST, fileIntPathList);
 										}
@@ -280,14 +278,14 @@ public class DescIndexData {
 										//constantDefinedBefore = true;
 										if (logger.isTraceEnabled()) {
 											logger.trace("inserted {} after {}",
-													fileIntPathList.get(i).getKey().getFileName(), fileName);
+													fileIntPathList.get(i).key().getFileName(), fileName);
 											logger.trace(FILE_INT_PATH_LIST, fileIntPathList);
 										}
 										break y;
 									} else {
 										if (logger.isTraceEnabled()) {
 											logger.trace(CHECKED_WITH_DEPENDENCY_AND_I_J_I2,
-													fileIntPathList.get(i).getKey().getFileName(), curDependencyTo,
+													fileIntPathList.get(i).key().getFileName(), curDependencyTo,
 													constant, i, j, i2);
 										}
 									}
@@ -305,13 +303,13 @@ public class DescIndexData {
 		
 		// change order according to templates
 		insertOccurred = true;
-		for (int counter = 0; insertOccurred && counter < Math.pow(fileIntPathList.size(), 4); counter++) {
+		for (int counter = 0; insertOccurred && counter < Math.pow(fileIntPathList.size(), 4); ++counter) {
 			if (logger.isTraceEnabled()) {
 				logger.trace("counter={}", counter);
 			}
 			insertOccurred = false;
 			x:
-			for (int i = 0; i < dependencies.size(); i++) {
+			for (int i = 0; i < dependencies.size(); ++i) {
 				
 				final List<String> curLayoutDepList = dependencies.get(i);
 				final Pair<Path, String> pair = fileIntPathList.get(i);
@@ -322,9 +320,9 @@ public class DescIndexData {
 					
 					if (!curDependencyTo.startsWith(STRING2)) {
 						// check if it appears after the template
-						for (int i2 = i + 1; i2 < dependencies.size(); i2++) {
+						for (int i2 = i + 1; i2 < dependencies.size(); ++i2) {
 							final Pair<Path, String> otherPair = fileIntPathList.get(i2);
-							String fileName = otherPair.getKey().getFileName().toString();
+							String fileName = otherPair.key().getFileName().toString();
 							final int dotIndex = fileName.lastIndexOf('.');
 							if (dotIndex >= 0) {
 								fileName = fileName.substring(0, dotIndex);
@@ -333,7 +331,7 @@ public class DescIndexData {
 							if (fileName.equals(curDependencyTo)) {
 								if (logger.isTraceEnabled()) {
 									logger.trace(CHECKED_WITH_DEPENDENCY_AND_I_J_I2,
-											fileIntPathList.get(i).getKey().getFileName(), curDependencyTo, fileName, i,
+											fileIntPathList.get(i).key().getFileName(), curDependencyTo, fileName, i,
 											j, i2);
 									logger.trace(FILE_INT_PATH_LIST, fileIntPathList);
 								}
@@ -345,7 +343,7 @@ public class DescIndexData {
 								fileIntPathList.add(i, pair);
 								insertOccurred = true;
 								if (logger.isTraceEnabled()) {
-									logger.trace("inserted {} after {}", fileIntPathList.get(i).getKey().getFileName(),
+									logger.trace("inserted {} after {}", fileIntPathList.get(i).key().getFileName(),
 											fileName);
 									logger.trace(FILE_INT_PATH_LIST, fileIntPathList);
 								}
@@ -353,7 +351,7 @@ public class DescIndexData {
 							} else {
 								if (logger.isTraceEnabled()) {
 									logger.trace(CHECKED_WITH_DEPENDENCY_AND_I_J_I2,
-											fileIntPathList.get(i).getKey().getFileName(), curDependencyTo, fileName, i,
+											fileIntPathList.get(i).key().getFileName(), curDependencyTo, fileName, i,
 											j, i2);
 								}
 							}

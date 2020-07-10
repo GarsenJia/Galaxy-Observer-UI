@@ -34,7 +34,7 @@ public class UICatalogImpl implements UICatalog {
 	
 	private static final String UNDERSCORE = "_";
 	private static final Logger logger = LogManager.getLogger(UICatalogImpl.class);
-	private UICatalogParser parser;
+	private ParsedXmlConsumer parser;
 	
 	// members
 	private List<UITemplate> templates;
@@ -106,7 +106,7 @@ public class UICatalogImpl implements UICatalog {
 	}
 	
 	@Override
-	public void setParser(final UICatalogParser parser) {
+	public void setParser(final ParsedXmlConsumer parser) {
 		this.parser = parser;
 	}
 	
@@ -313,7 +313,7 @@ public class UICatalogImpl implements UICatalog {
 	 */
 	private static boolean removeConstantFromList(final String name, final List<UIConstant> listOfConstants) {
 		boolean result = false;
-		for (int i = listOfConstants.size() - 1; i >= 0; i--) {
+		for (int i = listOfConstants.size() - 1; i >= 0; --i) {
 			final UIConstant curConst = listOfConstants.get(i);
 			if (curConst.getName().compareToIgnoreCase(name) == 0) {
 				listOfConstants.remove(i);

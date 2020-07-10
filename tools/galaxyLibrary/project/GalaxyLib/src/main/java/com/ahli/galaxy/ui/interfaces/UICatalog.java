@@ -3,7 +3,6 @@
 
 package com.ahli.galaxy.ui.interfaces;
 
-import com.ahli.galaxy.parser.UICatalogParser;
 import com.ahli.galaxy.parser.interfaces.ParsedXmlConsumer;
 import com.ahli.galaxy.ui.UIConstant;
 import com.ahli.galaxy.ui.UITemplate;
@@ -29,7 +28,7 @@ public interface UICatalog extends DeepCopyable {
 	/**
 	 * Sets/Clears the XML Parser.
 	 */
-	void setParser(UICatalogParser parser);
+	void setParser(ParsedXmlConsumer parser);
 	
 	/**
 	 * @param f
@@ -148,8 +147,18 @@ public interface UICatalog extends DeepCopyable {
 	void addTemplate(final String fileName, final UIElement thisElem, final boolean isDevLayout)
 			throws UIException;
 	
+	/**
+	 * @param path
+	 * @param isDevLayout
+	 * @param raceId
+	 * @param consoleSkinId
+	 */
 	void processInclude(String path, boolean isDevLayout, String raceId, String consoleSkinId);
 	
+	/**
+	 * @param file
+	 * @return
+	 */
 	UITemplate[] getTemplatesOfPath(final String file);
 	
 	/**

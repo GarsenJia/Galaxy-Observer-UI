@@ -80,8 +80,8 @@ public class MpqEditorInterface implements MpqInterface, DeepCopyable {
 		if (f.isDirectory()) {
 			final File[] content = f.listFiles();
 			if (content != null) {
-				for (int i = 0; i < content.length; i++) {
-					if (!deleteDir(content[i])) {
+				for (final File file : content) {
+					if (!deleteDir(file)) {
 						return false;
 					}
 				}

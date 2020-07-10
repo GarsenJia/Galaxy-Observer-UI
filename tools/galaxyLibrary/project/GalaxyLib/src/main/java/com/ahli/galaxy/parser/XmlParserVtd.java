@@ -67,7 +67,7 @@ public class XmlParserVtd extends XmlParserAbstract {
 	
 	@Override
 	public void parseFile(final Path p) throws IOException {
-		logger.trace("parsing layout file: {}", () -> p.getFileName());
+		logger.trace("parsing layout file: {}", p::getFileName);
 		try {
 			final byte[] bytes = Files.readAllBytes(p);
 			// setdoc causes a nullpointer error due to an internal bug

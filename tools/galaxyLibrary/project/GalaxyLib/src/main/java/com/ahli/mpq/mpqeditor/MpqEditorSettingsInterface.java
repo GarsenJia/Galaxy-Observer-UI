@@ -164,7 +164,7 @@ public class MpqEditorSettingsInterface implements DeepCopyable {
 		if (rulesetFile.exists()) {
 			do {
 				backupFile = new File(directoryPath + File.separator + "MPQEditor_Ruleset_" + i + ".tmp");
-				i++;
+				++i;
 				if (i > 999) {
 					throw new IOException("Could not find unique name for MPQEditor_Ruleset.ini's backup copy.");
 				}
@@ -178,7 +178,7 @@ public class MpqEditorSettingsInterface implements DeepCopyable {
 			i = 0;
 			do {
 				backupFile = new File(directoryPath + File.separator + "MPQEditor_" + i + ".tmp");
-				i++;
+				++i;
 				if (i > 999) {
 					throw new IOException("Could not find unique name for MPQEditor.ini's backup copy.");
 				}
@@ -261,9 +261,9 @@ public class MpqEditorSettingsInterface implements DeepCopyable {
 		switch (compression) {
 			case CUSTOM:
 				if (customRules != null) {
-					for (int i = 0, len = customRules.length; i < len; i++) {
-						if (customRules[i] != null) {
-							ini.addProperty(CUSTOM_RULE_PROPERTY_KEY, customRules[i].toString());
+					for (final MpqEditorCompressionRule customRule : customRules) {
+						if (customRule != null) {
+							ini.addProperty(CUSTOM_RULE_PROPERTY_KEY, customRule.toString());
 						} else {
 							throw new IllegalArgumentException(
 									"Compression Rules in MpqEditorSettingsInterface has null entry");
@@ -328,7 +328,7 @@ public class MpqEditorSettingsInterface implements DeepCopyable {
 		final MpqEditorSettingsInterface clone = new MpqEditorSettingsInterface();
 		if (customRules != null) {
 			clone.customRules = new MpqEditorCompressionRule[customRules.length];
-			for (int i = 0, len = customRules.length; i < len; i++) {
+			for (int i = 0, len = customRules.length; i < len; ++i) {
 				customRules[i] = customRules[i] == null ? null : (MpqEditorCompressionRule) customRules[i].deepCopy();
 			}
 		}

@@ -11,11 +11,31 @@ import java.util.List;
 
 public interface ParsedXmlConsumer {
 	
+	/**
+	 * @param p
+	 * @param raceId
+	 * @param isDevLayout
+	 * @param consoleSkinId
+	 * @throws IOException
+	 */
 	void parseFile(Path p, String raceId, boolean isDevLayout, String consoleSkinId) throws IOException;
 	
+	/**
+	 * @param level
+	 * @param lowerCase
+	 * @param attrTypes
+	 * @param attrValues
+	 * @throws UIException
+	 */
 	void parse(int level, String lowerCase, List<String> attrTypes, List<String> attrValues) throws UIException;
 	
+	/**
+	 *
+	 */
 	void endLayoutFile();
 	
+	/**
+	 *
+	 */
 	void deduplicate();
 }

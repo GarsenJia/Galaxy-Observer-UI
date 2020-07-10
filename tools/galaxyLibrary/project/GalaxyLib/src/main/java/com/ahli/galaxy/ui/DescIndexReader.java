@@ -65,7 +65,7 @@ public final class DescIndexReader {
 		
 		// must be in a DataComponent node
 		final NodeList nodeList = doc.getElementsByTagName("*");
-		for (int i = 0, len = nodeList.getLength(); i < len; i++) {
+		for (int i = 0, len = nodeList.getLength(); i < len; ++i) {
 			final Node node = nodeList.item(i);
 			if ("Include".equalsIgnoreCase(node.getNodeName())) {
 				final NamedNodeMap attributes = node.getAttributes();

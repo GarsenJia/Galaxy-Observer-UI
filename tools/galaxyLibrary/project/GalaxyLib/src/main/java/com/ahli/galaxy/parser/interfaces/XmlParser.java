@@ -26,5 +26,8 @@ public interface XmlParser {
 	 */
 	void clear();
 	
+	/**
+	 * @param consumer
+	 */
 	void setConsumer(ParsedXmlConsumer consumer);
 }

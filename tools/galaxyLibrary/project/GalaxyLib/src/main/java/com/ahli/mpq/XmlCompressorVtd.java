@@ -60,7 +60,7 @@ public final class XmlCompressorVtd {
 		final VTDGen vtd = new VTDGen();
 		
 		for (final File curFile : filesOfCache) {
-			logger.trace("compression - processing file: {}", () -> curFile.getPath());
+			logger.trace("compression - processing file: {}", curFile::getPath);
 			
 			try {
 				// setdoc causes a nullpointer error due to an internal bug

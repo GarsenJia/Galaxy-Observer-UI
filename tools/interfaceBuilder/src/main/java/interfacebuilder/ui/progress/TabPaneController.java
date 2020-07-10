@@ -52,7 +52,7 @@ public class TabPaneController implements Updateable {
 		final Tab tab = tabs.get(0);
 		tab.setContent(scrollPane);
 		
-		final ErrorTabController errorTabCtrl = new ErrorTabController(tab, txtArea, false, true, false);
+		final ErrorTabController errorTabCtrl = new ErrorTabController(tab, txtArea, false, true, true);
 		InterfaceBuilderApp.getInstance().addErrorTabController(errorTabCtrl);
 		StylizedTextAreaAppender.setGeneralController(errorTabCtrl);
 	}

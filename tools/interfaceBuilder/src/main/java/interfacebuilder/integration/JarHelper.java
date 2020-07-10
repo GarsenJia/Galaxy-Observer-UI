@@ -45,7 +45,7 @@ public final class JarHelper {
 		//		final File dir = f.getAbsoluteFile().getParentFile();
 		final File dir = new ApplicationHome(aclass).getDir();
 		String str = dir.toString();
-		logger.trace("Attempt#1 java.class.path: {}", () -> dir.toString());
+		logger.trace("Attempt#1 java.class.path: {}", dir::toString);
 		
 		// check if started in eclipse
 		final int i = str.indexOf(File.separator + "target" + File.separator + "classes");
@@ -66,7 +66,7 @@ public final class JarHelper {
 			// notepad++'s directory...
 			
 			str = uri.getPath();
-			logger.trace("_URI path: {}", () -> uri.getPath());
+			logger.trace("_URI path: {}", uri::getPath);
 			
 			// fix for intellij
 			if (str.endsWith("/tools/./")) {

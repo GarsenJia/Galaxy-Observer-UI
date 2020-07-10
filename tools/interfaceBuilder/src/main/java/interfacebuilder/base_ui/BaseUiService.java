@@ -4,7 +4,7 @@
 package interfacebuilder.base_ui;
 
 import com.ahli.galaxy.game.GameData;
-import com.ahli.galaxy.game.def.abstracts.GameDef;
+import com.ahli.galaxy.game.def.GameDef;
 import com.ahli.galaxy.parser.UICatalogParser;
 import com.ahli.galaxy.parser.XmlParserVtd;
 import com.ahli.galaxy.ui.UICatalogImpl;
@@ -57,7 +57,6 @@ import java.util.concurrent.ForkJoinTask;
 import java.util.concurrent.RecursiveAction;
 
 public class BaseUiService {
-	private static final String UNKNOWN_GAME_EXCEPTION = "Unknown Game";
 	private static final Logger logger = LogManager.getLogger(BaseUiService.class);
 	private static final String META_FILE_NAME = ".meta";
 	
@@ -80,7 +79,7 @@ public class BaseUiService {
 	 * @return true, if outdated
 	 */
 	public boolean isOutdated(final Game game, final boolean usePtr) throws IOException {
-		final GameDef gameDef = gameService.getNewGameDef(game);
+		final GameDef gameDef = gameService.getGameDef(game);
 		final File gameBaseUI = new File(configService.getBaseUiPath(gameDef));
 		
 		if (!gameBaseUI.exists() || fileService.isEmptyDirectory(gameBaseUI)) {
@@ -100,7 +99,7 @@ public class BaseUiService {
 			logger.trace(msg, e);
 			return true;
 		}
-		final int[] versionBaseUi = baseUiInfo.getVersion();
+		final int[] versionBaseUi = baseUiInfo.version();
 		final int[] versionExe = getVersion(gameDef, usePtr);
 		boolean isUpToDate = true;
 		for (int i = 0; i < versionExe.length && isUpToDate; ++i) {
@@ -128,8 +127,8 @@ public class BaseUiService {
 	
 	public int[] getVersion(final GameDef gameDef, final boolean isPtr) {
 		final int[] versions = new int[4];
-		final Path path = Paths.get(gameService.getGameDirPath(gameDef, isPtr), gameDef.getSupportDirectoryX64(),
-				gameDef.getSwitcherExeNameX64());
+		final Path path = Paths.get(gameService.getGameDirPath(gameDef, isPtr), gameDef.supportDirectoryX64(),
+				gameDef.switcherExeNameX64());
 		try {
 			final PE pe = PEParser.parse(path.toFile());
 			final ResourceDirectory rd = pe.getImageData().getResourceTable();
@@ -142,14 +141,14 @@ public class BaseUiService {
 				
 				final StringFileInfo strings = version.getStringFileInfo();
 				final StringTable table = strings.getTable(0);
-				for (int j = 0; j < table.getCount(); j++) {
+				for (int j = 0; j < table.getCount(); ++j) {
 					final String key = table.getString(j).getKey();
 					if ("FileVersion".equals(key)) {
 						final String value = table.getString(j).getValue();
 						logger.trace("found FileVersion={}", () -> value);
 						
 						final String[] parts = value.split("\\.");
-						for (int k = 0; k < 4; k++) {
+						for (int k = 0; k < 4; ++k) {
 							versions[k] = Integer.parseInt(parts[k]);
 						}
 						return versions;
@@ -173,7 +172,7 @@ public class BaseUiService {
 	public List<ForkJoinTask<Void>> extract(final Game game, final boolean usePtr, final Appender[] outputs) {
 		logger.info("Extracting baseUI for {}", game);
 		
-		final GameDef gameDef = gameService.getNewGameDef(game);
+		final GameDef gameDef = gameService.getGameDef(game);
 		final File destination = new File(configService.getBaseUiPath(gameDef));
 		
 		try {
@@ -182,7 +181,7 @@ public class BaseUiService {
 				return null;
 			}
 			fileService.cleanDirectory(destination);
-			discCacheService.remove(gameDef.getName(), usePtr);
+			discCacheService.remove(gameDef.name(), usePtr);
 		} catch (final IOException e) {
 			logger.error(String.format("Directory %s could not be cleaned.", destination), e);
 			return null;
@@ -195,7 +194,7 @@ public class BaseUiService {
 		int i = 0;
 		for (final String mask : queryMasks) {
 			final Appender outputAppender = outputs[i];
-			i++;
+			++i;
 			final ForkJoinTask<Void> task = new RecursiveAction() {
 				@Override
 				protected void compute() {
@@ -222,7 +221,7 @@ public class BaseUiService {
 			protected void compute() {
 				final int[] version = getVersion(gameDef, usePtr);
 				try {
-					writeToMetaFile(destination, gameDef.getName(), version, usePtr);
+					writeToMetaFile(destination, gameDef.name(), version, usePtr);
 				} catch (final IOException e) {
 					logger.error("Failed to write metafile: ", e);
 				}
@@ -321,9 +320,9 @@ public class BaseUiService {
 	 */
 	public void parseBaseUI(final GameData gameData) {
 		// lock per game
-		synchronized (gameData.getGameDef().getName()) {
+		synchronized (gameData.getGameDef().name()) {
 			UICatalog uiCatalog = gameData.getUiCatalog();
-			final String gameName = gameData.getGameDef().getName();
+			final String gameName = gameData.getGameDef().name();
 			if (uiCatalog != null) {
 				if (logger.isTraceEnabled()) {
 					logger.trace("Aborting parsing baseUI for '{}' as was already parsed.", gameName);
@@ -364,13 +363,13 @@ public class BaseUiService {
 					final var app = InterfaceBuilderApp.getInstance();
 					app.printInfoLogMessageToGeneral("Starting to parse base " + gameName + " UI.");
 					app.addThreadLoggerTab(Thread.currentThread().getName(),
-							gameData.getGameDef().getNameHandle() + "UI", true);
+							gameData.getGameDef().nameHandle() + "UI", false);
 					final String gameDir = configService.getBaseUiPath(gameData.getGameDef()) + File.separator +
-							gameData.getGameDef().getModsSubDirectory();
+							gameData.getGameDef().modsSubDirectory();
 					try {
 						final WildcardFileFilter fileFilter =
 								new WildcardFileFilter("descindex.*layout", IOCase.INSENSITIVE);
-						for (final String modOrDir : gameData.getGameDef().getCoreModsOrDirectories()) {
+						for (final String modOrDir : gameData.getGameDef().coreModsOrDirectories()) {
 							
 							final File directory = new File(gameDir + File.separator + modOrDir);
 							if (!directory.exists() || !directory.isDirectory()) {
@@ -383,8 +382,8 @@ public class BaseUiService {
 							
 							for (final File descIndexFile : descIndexFiles) {
 								logger.info("parsing descIndexFile '{}'", descIndexFile.getPath());
-								uiCatalog.processDescIndex(descIndexFile, gameData.getGameDef().getDefaultRaceId(),
-										gameData.getGameDef().getDefaultConsoleSkinId());
+								uiCatalog.processDescIndex(descIndexFile, gameData.getGameDef().defaultRaceId(),
+										gameData.getGameDef().defaultConsoleSkinId());
 							}
 						}
 						uiCatalog.postProcessParsing();
@@ -434,16 +433,16 @@ public class BaseUiService {
 		try {
 			return cacheIsUpToDate(gameDef, usePtr);
 		} catch (final NoSuchFileException e) {
-			logger.trace("No cache exists for " + gameDef.getName(), e);
+			logger.trace("No cache exists for " + gameDef.name(), e);
 		} catch (final IOException e) {
-			logger.info("Failed to check cache status of " + gameDef.getName() + ":", e);
+			logger.info("Failed to check cache status of " + gameDef.name() + ":", e);
 		}
 		return false;
 	}
 	
 	public boolean cacheIsUpToDate(final GameDef gameDef, final boolean usePtr) throws IOException {
 		final File baseUiMetaFileDir = new File(configService.getBaseUiPath(gameDef));
-		final Path cacheFilePath = discCacheService.getCacheFilePath(gameDef.getName(), usePtr);
+		final Path cacheFilePath = discCacheService.getCacheFilePath(gameDef.name(), usePtr);
 		return cacheIsUpToDate(cacheFilePath, baseUiMetaFileDir);
 	}
 	
@@ -459,13 +458,13 @@ public class BaseUiService {
 		}
 		
 		final KryoGameInfo cacheInfo = discCacheService.getCachedBaseUiInfo(cacheFile);
-		final int[] versionCache = cacheInfo.getVersion();
+		final int[] versionCache = cacheInfo.version();
 		
 		final KryoGameInfo baseUiInfo = readMetaFile(metaFileDir);
 		if (baseUiInfo == null) {
 			return false;
 		}
-		final int[] versionBaseUi = baseUiInfo.getVersion();
+		final int[] versionBaseUi = baseUiInfo.version();
 		
 		boolean isUpToDate = true;
 		for (int i = 0; i < versionCache.length && isUpToDate; ++i) {
@@ -478,7 +477,7 @@ public class BaseUiService {
 	}
 	
 	public boolean isHeroesPtrActive() {
-		final File baseUiMetaFileDir = new File(configService.getBaseUiPath(gameService.getNewGameDef(Game.HEROES)));
+		final File baseUiMetaFileDir = new File(configService.getBaseUiPath(gameService.getGameDef(Game.HEROES)));
 		try {
 			final KryoGameInfo baseUiInfo = readMetaFile(baseUiMetaFileDir);
 			if (baseUiInfo != null) {

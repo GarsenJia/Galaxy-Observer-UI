@@ -59,7 +59,7 @@ public class LayoutExtensionReader {
 	private static Node getNamedItemIgnoreCase(final NamedNodeMap nodes, final String name) {
 		final Node node = nodes.getNamedItem(name);
 		if (node == null) {
-			for (int i = 0, len = nodes.getLength(); i < len; i++) {
+			for (int i = 0, len = nodes.getLength(); i < len; ++i) {
 				final Node curNode = nodes.item(i);
 				if (name.equalsIgnoreCase(curNode.getNodeName())) {
 					return curNode;
@@ -191,7 +191,7 @@ public class LayoutExtensionReader {
 	 * @param childNodes
 	 */
 	private void readComments(final NodeList childNodes) {
-		for (int i = 0; i < childNodes.getLength(); i++) {
+		for (int i = 0, len = childNodes.getLength(); i < len; ++i) {
 			final Node curNode = childNodes.item(i);
 			
 			if (curNode.getNodeType() == Node.COMMENT_NODE) {
@@ -310,7 +310,7 @@ public class LayoutExtensionReader {
 	 * @param childNodes
 	 */
 	private void readConstants(final NodeList childNodes) {
-		for (int i = 0; i < childNodes.getLength(); i++) {
+		for (int i = 0, len = childNodes.getLength(); i < len; ++i) {
 			final Node curNode = childNodes.item(i);
 			
 			if (curNode.getNodeType() == Node.ELEMENT_NODE) {
@@ -438,7 +438,7 @@ public class LayoutExtensionReader {
 	}
 	
 	private void modifyConstants(final NodeList childNodes) {
-		for (int i = 0; i < childNodes.getLength(); i++) {
+		for (int i = 0, len = childNodes.getLength(); i < len; ++i) {
 			final Node curNode = childNodes.item(i);
 			
 			if (curNode.getNodeType() == Node.ELEMENT_NODE) {

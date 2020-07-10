@@ -94,11 +94,11 @@ public final class XmlCompressorDom {
 				continue;
 			}
 			
-			logger.trace("compression - processing file: {}", () -> curFile.getPath());
+			logger.trace("compression - processing file: {}", curFile::getPath);
 			
 			// process all nodes
 			final NodeList nodes = doc.getElementsByTagName(ANY_TAGNAME);
-			for (int i = 0, len = nodes.getLength(); i < len; i++) {
+			for (int i = 0, len = nodes.getLength(); i < len; ++i) {
 				final Node curNode = nodes.item(i);
 				
 				// remove whitespace
@@ -126,7 +126,7 @@ public final class XmlCompressorDom {
 	 * @param ignoreCount
 	 */
 	private static void removeCommentsInChildNodes(final NodeList childNodes, int ignoreCount) {
-		for (int i = 0; i < childNodes.getLength(); i++) {
+		for (int i = 0, len = childNodes.getLength(); i < len; ++i) {
 			final Node curNode = childNodes.item(i);
 			
 			if (curNode.getNodeType() == Node.COMMENT_NODE) {
@@ -138,11 +138,12 @@ public final class XmlCompressorDom {
 					if (!text.contains(AHLI_HOTKEY) && !text.contains(AHLI_SETTING)) {
 						
 						curNode.getParentNode().removeChild(curNode);
-						
+						--i;
+						--len;
 					}
 					
 				} else {
-					ignoreCount--;
+					--ignoreCount;
 				}
 			} else {
 				removeCommentsInChildNodes(curNode.getChildNodes(), ignoreCount);
@@ -155,7 +156,7 @@ public final class XmlCompressorDom {
 	 */
 	public static void trimWhitespace(final Node node) {
 		final NodeList childNodes = node.getChildNodes();
-		for (int i = 0; i < childNodes.getLength(); i++) {
+		for (int i = 0, len = childNodes.getLength(); i < len; ++i) {
 			final Node child = childNodes.item(i);
 			if (child.getNodeType() == Node.TEXT_NODE) {
 				child.setTextContent(child.getTextContent().trim());

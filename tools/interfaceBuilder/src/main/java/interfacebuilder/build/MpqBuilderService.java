@@ -7,7 +7,7 @@ import com.ahli.galaxy.ModData;
 import com.ahli.galaxy.archive.ComponentsListReaderDom;
 import com.ahli.galaxy.archive.DescIndexData;
 import com.ahli.galaxy.game.GameData;
-import com.ahli.galaxy.game.def.abstracts.GameDef;
+import com.ahli.galaxy.game.def.GameDef;
 import com.ahli.galaxy.ui.DescIndexReader;
 import com.ahli.mpq.MpqEditorInterface;
 import com.ahli.mpq.MpqException;
@@ -133,13 +133,13 @@ public class MpqBuilderService {
 		if (game.getUiCatalog() == null && verifyLayout) {
 			// parse default UI
 			throw new IllegalStateException(
-					String.format("Base UI of game '%s' has not been parsed.", game.getGameDef().getName()));
+					String.format("Base UI of game '%s' has not been parsed.", game.getGameDef().name()));
 		}
 		
 		// create tasks for the worker pool
 		try {
 			InterfaceBuilderApp.getInstance()
-					.addThreadLoggerTab(Thread.currentThread().getName(), interfaceDirectory.getName(), false);
+					.addThreadLoggerTab(Thread.currentThread().getName(), interfaceDirectory.getName(), true);
 			// create unique cache path
 			final MpqEditorInterface threadsMpqInterface =
 					new MpqEditorInterface(configService.getMpqCachePath() + Thread.currentThread().getId(),
@@ -215,8 +215,8 @@ public class MpqBuilderService {
 		final GameDef gameDef = game.getGameDef();
 		
 		final String targetPath =
-				configService.getDocumentsPath() + File.separator + gameDef.getDocumentsGameDirectoryName() +
-						File.separator + gameDef.getDocumentsInterfaceSubdirectoryName();
+				configService.getDocumentsPath() + File.separator + gameDef.documentsGameDirectoryName() +
+						File.separator + gameDef.documentsInterfaceSubdirectoryName();
 		
 		// init mod data
 		final ModData mod = new ModData(game);

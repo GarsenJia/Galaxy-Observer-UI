@@ -5,9 +5,7 @@ package com.ahli.hotkey_ui.application;
 
 import com.ahli.galaxy.archive.ComponentsListReaderDom;
 import com.ahli.galaxy.archive.DescIndexData;
-import com.ahli.galaxy.game.def.HeroesGameDef;
-import com.ahli.galaxy.game.def.SC2GameDef;
-import com.ahli.galaxy.game.def.abstracts.GameDef;
+import com.ahli.galaxy.game.def.GameDef;
 import com.ahli.galaxy.ui.DescIndexReader;
 import com.ahli.hotkey_ui.application.controller.MenuBarController;
 import com.ahli.hotkey_ui.application.controller.TabsController;
@@ -487,7 +485,7 @@ public class SettingsEditorApplication extends Application {
 				}
 				
 				final boolean isNamespaceHeroes = isNameSpaceHeroes(mpqi);
-				final GameDef game = isNamespaceHeroes ? new HeroesGameDef() : new SC2GameDef();
+				final GameDef game = isNamespaceHeroes ? GameDef.getHeroesGameDef() : GameDef.getSc2GameDef();
 				
 				// load desc index from mpq
 				descIndex.setDescIndexPathAndClear(ComponentsListReaderDom.getDescIndexPath(componentListFile, game));
