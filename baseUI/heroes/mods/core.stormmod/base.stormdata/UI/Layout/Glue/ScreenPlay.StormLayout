@@ -276,7 +276,7 @@
     <Frame type="GlueButton" name="ARAMButton" template="ScreenPlay/NavigationButtonTemplate">
       <Anchor side="Top" relative="$parent/RankedLeagueButton" pos="Min" offset="0" />
       <Anchor side="Left" relative="$parent/RankedLeagueButton" pos="Max" offset="#ScreenPlay_NavigationButton_Offset" />
-      <Text val="ARAM" />
+      <Text val="@UI/ARAM" />
       <Handle val="ScreenPlay_ARAMButton" />
     </Frame>
     <Frame type="GlueButton" name="CustomGamesButton" template="ScreenPlay/NavigationButtonTemplate">

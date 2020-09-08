@@ -719,7 +719,7 @@
       <Anchor side="Left" relative="$parent" pos="Mid" offset="0" />
       <Anchor side="Right" relative="$parent" pos="Mid" offset="0" />
       <Style val="Storm_MapLoading_Title_Blue" />
-      <Text val="ARAM" />
+      <Text val="@UI/ARAM" />
     </Frame>
     <Frame type="Label" name="DescriptionLabel">
       <Anchor side="Top" relative="$parent/TitleLabel" pos="Max" offset="10" />

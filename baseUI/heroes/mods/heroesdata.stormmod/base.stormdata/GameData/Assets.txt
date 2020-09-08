@@ -3070,7 +3070,7 @@ UI/Storm_UI_HomeScreen_Tile_Mei=Assets\Textures\Storm_UI_HomeScreen_Tile_Mei.dds
 
 //====== HomeScreens/Home52.StormLayout ===========
 UI/Storm_UI_HomeScreenBackground_CraftWarsEvent=Assets\Textures\Storm_UI_HomeScreenBackground_CraftWarsEvent.dds
-UI/Storm_UI_HomeScreen_Tile_CraftWarsBundle=Assets\Textures\Storm_UI_HomeScreen_Tile_CraftWarsBundle.dds
+UI/Storm_UI_HomeScreen_Tile_WorldsCollideBundle=Assets\Textures\Storm_UI_HomeScreen_Tile_WorldsCollideBundle.dds
 
 //====== HomeScreens/HomeCrypts.StormLayout ===========
 UI/Storm_UI_CandleFlame=Assets\Textures\storm_ui_candleflame.dds

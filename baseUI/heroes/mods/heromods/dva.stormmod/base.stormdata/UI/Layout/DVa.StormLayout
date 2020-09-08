@@ -790,6 +790,9 @@
       <StackBehavior val="DVaBunnyHopTokenCounter" />
       <DebuffType val="TokenCounter" />
       <MaxValueOverride val="3" />
+      <VisibleToEnemy val="True" />
+      <VisibleToAlly val="False" />
+      <VisibleToOwner val="False" />
       <Frame type="ProgressBar" name="StacksProgressBar">
         <Anchor side="Left" relative="$parent/StacksFull" pos="Mid" offset="-1" />
         <Anchor side="Right" relative="$parent/StacksFull" pos="Mid" offset="-1" />
